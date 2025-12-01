@@ -604,19 +604,25 @@
     document.getElementById('userName').textContent = userName;
 
     // Logout function
-    function logout() {
-        if (confirm('Are you sure you want to logout?')) {
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userId');
-            fetch(`${baseUrl}/logout`, {
-                method: 'POST',
-                credentials: 'include'
-            }).finally(() => {
-                window.location.href = 'login.html';
-            });
-        }
+    // Logout function
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        // Clear all user-related localStorage
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('predictionResults'); // <-- clear prediction results
+
+        // Optional: call backend logout endpoint
+        fetch(`${baseUrl}/logout`, {
+            method: 'POST',
+            credentials: 'include'
+        }).finally(() => {
+            window.location.href = 'login.html';
+        });
     }
+}
+
 
     const form = document.getElementById('predictionForm');
     const submitBtn = document.getElementById('submitBtn');
