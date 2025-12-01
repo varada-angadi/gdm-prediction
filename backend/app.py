@@ -9,6 +9,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
+model_path = os.path.join(os.path.dirname(__file__), 'gdm_model.h5')
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-in-production-12345678'
 CORS(app, supports_credentials=True)
@@ -56,7 +57,7 @@ def serve_static(filename):
 ##########################################
 
 print("Loading model...")
-model = keras.models.load_model('backend/gdm_model.h5')
+model = keras.models.load_model(model_path)
 
 with open('backend/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
