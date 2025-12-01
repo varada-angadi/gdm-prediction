@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copy backend files directly
 COPY backend/* .
+COPY frontend ./frontend
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
