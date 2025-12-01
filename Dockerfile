@@ -1,17 +1,18 @@
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy backend files directly
-COPY backend/* .
+# Copy backend
+COPY backend/ ./backend/
+
+# Copy frontend (optional if serving via Flask)
 COPY frontend ./frontend
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r backend/requirements.txt
 
-# Expose port
+# Expose port (optional)
 EXPOSE 5000
 
-# Start Gunicorn using Railway PORT
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT} app:app"]
+# Railway will inject PORT at runtime
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT} backend.app:app"]
