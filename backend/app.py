@@ -501,7 +501,7 @@ def logout():
 ##########################################
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
 
     print("\n" + "="*60)
     print("🚀 MATERNAGUARD SERVER STARTING")
