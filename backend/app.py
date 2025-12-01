@@ -56,12 +56,12 @@ def serve_static(filename):
 ##########################################
 
 print("Loading model...")
-model = keras.models.load_model('gdm_model.h5')
+model = keras.models.load_model('backend/gdm_model.h5')
 
-with open('scaler.pkl', 'rb') as f:
+with open('backend/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
-with open('feature_names.pkl', 'rb') as f:
+with open('backend/feature_names.pkl', 'rb') as f:
     feature_names = pickle.load(f)
 
 print("Model loaded successfully!")
