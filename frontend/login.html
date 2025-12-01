@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - MaternaGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #E8F5FF 0%, #FFE8F5 50%, #FFF4E8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decorative-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.12;
+        }
+
+        .shape1 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #A78BFA, #EC4899);
+            top: -80px;
+            left: -80px;
+        }
+
+        .shape2 {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #60A5FA, #A78BFA);
+            bottom: 40px;
+            right: -40px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 380px 500px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left-panel {
+            background:#db486f;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .logo-section {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+        }
+
+        .brand-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-content h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .left-content p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .right-panel {
+            padding: 50px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1F2937;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: #6B7280;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+            background: #F9FAFB;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #db486f;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        input:hover {
+            border-color: #D1D5DB;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 8px;
+        }
+
+        .forgot-password a {
+            color: #db486f;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: #db486f;
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background:#db486f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 28px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #db486f;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: #db486f;
+            text-decoration: underline;
+        }
+
+        .error {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #DC2626;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #D1FAE5;
+            color: #059669;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #059669;
+            font-weight: 500;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+            }
+
+            .left-panel {
+                display: none;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo-section">
+                <div class="logo-icon">🤰</div>
+                <div class="brand-name">MaternaGuard</div>
+                <div class="brand-tagline">Empowering healthier pregnancies through intelligent care</div>
+            </div>
+
+            <div class="left-content">
+                <h2>All your healthcare needs on your fingertips</h2>
+                <p>Join thousands of expecting mothers who trust MaternaGuard for personalized GDM risk assessment.</p>
+
+                <ul class="features-list">
+                    <li>Advanced AI-powered predictions</li>
+                    <li>Personalized health insights</li>
+                    <li>Expert recommendations</li>
+                    <li>Secure and confidential</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to continue to your account</p>
+            </div>
+
+            <div id="error" class="error"></div>
+            <div id="success" class="success"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="loginBtn">Sign In</button>
+            </form>
+
+            <div class="signup-link">
+                Don't have an account? <a href="signup.html">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Replace the login form submission in login.html with this:
+
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store user data in localStorage
+                    localStorage.setItem('userId', data.user_id);
+                    localStorage.setItem('userName', data.name);
+                    localStorage.setItem('userEmail', data.email);
+                    
+                    alert('Login successful!');
+                    window.location.href = 'prediction.html';
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Network error. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

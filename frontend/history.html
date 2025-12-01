@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment History - MaternaGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #E8F5FF 0%, #FFE8F5 50%, #FFF4E8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .decorative-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #A78BFA, #EC4899);
+            top: -100px;
+            right: -100px;
+        }
+
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #60A5FA, #A78BFA);
+            bottom: 50px;
+            left: -50px;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .brand-text h2 {
+            font-size: 22px;
+            font-weight: 800;
+            background: #db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info {
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .user-info span {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .user-info strong {
+            color: #1F2937;
+            font-weight: 700;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #db486f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-btn.secondary {
+            background: white;
+            color: #db486f;
+            border: 2px solid #db486f;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .header .highlight {
+            background: #db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #6B7280;
+            font-size: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #F3F4F6;
+            border-top: 5px solid #db486f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .empty-state-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            font-size: 24px;
+            color: #1F2937;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            color: #6B7280;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .history-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .history-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+            transition: all 0.3s;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .history-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+        }
+
+        .history-card.high { border-left-color: #DC2626; }
+        .history-card.moderate { border-left-color: #F59E0B; }
+        .history-card.low { border-left-color: #10B981; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #F3F4F6;
+        }
+
+        .card-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6B7280;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .risk-badge {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .risk-badge.high {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            color: #DC2626;
+        }
+
+        .risk-badge.moderate {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            color: #F59E0B;
+        }
+
+        .risk-badge.low {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            color: #10B981;
+        }
+
+        .card-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .data-item {
+            background: #F9FAFB;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .data-label {
+            font-size: 12px;
+            color: #6B7280;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .data-value {
+            font-size: 18px;
+            color: #1F2937;
+            font-weight: 700;
+        }
+
+        .card-footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #F3F4F6;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .view-btn {
+            padding: 10px 24px;
+            background: #db486f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar-right {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .history-card {
+                padding: 20px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .card-body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+    </div>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo-icon">🤰</div>
+            <div class="brand-text">
+                <h2>MaternaGuard</h2>
+                <p>Empowering healthier pregnancies</p>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <span>Welcome, <strong id="userName"></strong></span>
+            </div>
+            <a href="prediction.html" class="nav-btn secondary">📊 New Assessment</a>
+            <button class="nav-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Your <span class="highlight">Assessment History</span></h1>
+            <p>Track your previous risk assessments and progress</p>
+        </div>
+
+        <div id="loadingState" class="loading">
+            <div class="loading-spinner"></div>
+            <p style="color: #6B7280; font-weight: 600;">Loading your history...</p>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📋</div>
+            <h2>No Assessments Yet</h2>
+            <p>You haven't completed any risk assessments yet. Start your first assessment to track your health journey.</p>
+            <a href="prediction.html" class="nav-btn">📊 Start First Assessment</a>
+        </div>
+
+        <div id="historyGrid" class="history-grid" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Replace the script section in history.html with this:
+
+        // Check if user is logged in
+        const userName = localStorage.getItem('userName');
+        const userId = localStorage.getItem('userId');
+
+        if (!userName || !userId) {
+            alert('Please login first');
+            window.location.href = 'login.html';
+        }
+        document.getElementById('userName').textContent = userName;
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userId');
+                fetch('http://localhost:5000/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                }).finally(() => {
+                    window.location.href = 'login.html';
+                });
+            }
+        }
+
+        // Load history
+        async function loadHistory() {
+            try {
+                // Use userId in the URL
+                const response = await fetch(`http://localhost:5000/history/${userId}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                document.getElementById('loadingState').style.display = 'none';
+
+                if (response.ok && data.history && data.history.length > 0) {
+                    displayHistory(data.history);
+                } else {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading history:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+
+        function displayHistory(history) {
+            const grid = document.getElementById('historyGrid');
+            grid.style.display = 'grid';
+            
+            history.forEach((record, index) => {
+                const card = document.createElement('div');
+                const riskClass = record.risk_level.toLowerCase();
+                card.className = `history-card ${riskClass}`;
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                const date = new Date(record.timestamp);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-date">
+                            <span>📅</span>
+                            <span>${formattedDate}</span>
+                        </div>
+                        <div class="risk-badge ${riskClass}">
+                            ${record.risk_level} Risk - ${record.risk_percentage}%
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-item">
+                            <div class="data-label">Age</div>
+                            <div class="data-value">${record.age} years</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">BMI</div>
+                            <div class="data-value">${record.bmi}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Gestational Week</div>
+                            <div class="data-value">Week ${record.gestational_week}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Weight Gain</div>
+                            <div class="data-value">${record.weight_gain} kg</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Blood Pressure</div>
+                            <div class="data-value">${record.blood_pressure_systolic} mmHg</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Heart Rate</div>
+                            <div class="data-value">${record.resting_heart_rate} bpm</div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Load history on page load
+        loadHistory();
+    </script>
+</body>
+</html>

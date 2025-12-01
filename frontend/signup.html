@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MaternaGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #E8F5FF 0%, #FFE8F5 50%, #FFF4E8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decorative-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.12;
+        }
+
+        .shape1 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #A78BFA, #EC4899);
+            top: -80px;
+            right: -80px;
+        }
+
+        .shape2 {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #60A5FA, #A78BFA);
+            bottom: 40px;
+            left: -40px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 500px 380px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left-panel {
+            padding: 50px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1F2937;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: #6B7280;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+            background: #F9FAFB;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f9e8ed;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        input:hover {
+            border-color: #db486f;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #9CA3AF;
+            margin-top: 6px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background:  #EC4899;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #7C3AED;
+            text-decoration: underline;
+        }
+
+        .error {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #DC2626;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #D1FAE5;
+            color: #059669;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #059669;
+            font-weight: 500;
+        }
+
+        .terms {
+            font-size: 12px;
+            color: #9CA3AF;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .right-panel {
+            background: #db486f;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+        }
+
+        .right-panel::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -80px;
+            right: -80px;
+        }
+
+        .logo-section {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+        }
+
+        .brand-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .right-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .benefit-text {
+            flex: 1;
+        }
+
+        .benefit-text h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .benefit-text p {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+            }
+
+            .right-panel {
+                display: none;
+            }
+
+            .left-panel {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+            <div class="header">
+                <h1>Create Account</h1>
+                <p>Join MaternaGuard for personalized health insights</p>
+            </div>
+
+            <div id="error" class="error"></div>
+            <div id="success" class="success"></div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" 
+                           placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" 
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" 
+                           placeholder="Create a password" required minlength="6">
+                    <div class="password-hint">Must be at least 6 characters long</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" 
+                           placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="btn" id="signupBtn">
+                    <span id="btnText">Create Account</span>
+                </button>
+
+                <div class="terms">
+                    By creating an account, you agree to our Terms of Service and Privacy Policy.
+                </div>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="logo-section">
+                <div class="logo-icon">💗</div>
+                <div class="brand-name">MaternaGuard</div>
+                <div class="brand-tagline">Empowering healthier pregnancies through intelligent care</div>
+            </div>
+
+            <div class="right-content">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-text">
+                        <h4>Accurate Predictions</h4>
+                        <p>Advanced AI analyzes 12+ factors for precise risk assessment</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">💡</div>
+                    <div class="benefit-text">
+                        <h4>Personalized Insights</h4>
+                        <p>Get customized recommendations based on your unique profile</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔒</div>
+                    <div class="benefit-text">
+                        <h4>Secure & Private</h4>
+                        <p>Your health data is encrypted and completely confidential</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-text">
+                        <h4>Instant Results</h4>
+                        <p>Receive your risk assessment report in seconds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+        const signupBtn = document.getElementById('signupBtn');
+        const btnText = document.getElementById('btnText');
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSuccess(message) {
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideMessages() {
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+        }
+
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            return password === confirmPassword;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            hideMessages();
+
+            if (!validatePasswords()) {
+                showError('Passwords do not match. Please try again.');
+                return;
+            }
+
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long.');
+                return;
+            }
+
+            signupBtn.disabled = true;
+            btnText.textContent = 'Creating account...';
+
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim().toLowerCase(),
+                password: password
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('✓ Account created successfully! Redirecting to login...');
+                    form.reset();
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    showError(data.error || 'Signup failed. Please try again.');
+                    signupBtn.disabled = false;
+                    btnText.textContent = 'Create Account';
+                }
+            } catch (error) {
+                showError('Network error. Please ensure the server is running on port 5000.');
+                signupBtn.disabled = false;
+                btnText.textContent = 'Create Account';
+            }
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                this.style.borderColor = '#DC2626';
+            } else {
+                this.style.borderColor = '#E5E7EB';
+            }
+        });
+
+        document.getElementById('name').focus();
+    </script>
+</body>
+</html>

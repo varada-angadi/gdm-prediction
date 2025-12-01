@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment - MaternaGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #E8F5FF 0%, #FFE8F5 50%, #FFF4E8 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .decorative-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #A78BFA, #EC4899);
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #60A5FA, #A78BFA);
+            bottom: 50px;
+            right: -50px;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .brand-text h2 {
+            font-size: 22px;
+            font-weight: 800;
+            background: #db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info span {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .user-info strong {
+            color: #1F2937;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            padding: 10px 24px;
+            background: #db486f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #F3F4F6;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1F2937;
+            margin-bottom: 12px;
+        }
+
+        .header .highlight {
+            background:#db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #6B7280;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            border-radius: 16px;
+            border-left: 5px solid;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section:nth-child(1) { border-left-color: #8B5CF6; animation-delay: 0.1s; }
+        .section:nth-child(2) { border-left-color: #db486f; animation-delay: 0.2s; }
+        .section:nth-child(3) { border-left-color: #F59E0B; animation-delay: 0.3s; }
+        .section:nth-child(4) { border-left-color: #10B981; animation-delay: 0.4s; }
+        .section:nth-child(5) { border-left-color: #3B82F6; animation-delay: 0.5s; }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #DC2626;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        input:hover, select:hover {
+            border-color: #D1D5DB;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #6B7280;
+            margin: 0;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: #8B5CF6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            color: #8B5CF6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .radio-option label:hover {
+            border-color: #D1D5DB;
+            background: #F9FAFB;
+        }
+
+        .info-text {
+            color: #9CA3AF;
+            font-size: 12px;
+            margin-top: 6px;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 20px;
+            background: #db486f;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            font-family: inherit;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #8B5CF6, #EC4899, #F59E0B);
+            transition: width 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .navbar-right {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .radio-option {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="navbar">
+    <div class="navbar-left">
+        <div class="logo-icon">🤰</div>
+        <div class="brand-text">
+            <h2>MaternaGuard</h2>
+            <p>Empowering healthier pregnancies</p>
+        </div>
+    </div>
+    <div class="navbar-right">
+        <div class="user-info">
+            <span>Welcome, <strong id="userName"></strong></span>
+        </div>
+        <a href="history.html" class="logout-btn" style="text-decoration: none; margin-right: 10px;">📜 History</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+    <div class="container">
+        <div class="header">
+            <h1><span class="highlight">Gestational Diabetes</span> Risk Assessment</h1>
+            <p>Complete all fields below for your personalized risk analysis</p>
+        </div>
+
+        <form id="predictionForm">
+            <!-- Basic Information Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">📋</span>
+                    Basic Information
+                </h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age <span class="required">*</span></label>
+                        <input type="number" id="age" name="age" min="18" max="45" placeholder="25" required>
+                        <p class="info-text">Your current age in years</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="bmi">BMI (Body Mass Index) <span class="required">*</span></label>
+                        <input type="number" id="bmi" name="bmi" min="15" max="50" step="0.1" placeholder="24.5" required>
+                        <p class="info-text">BMI before pregnancy (kg/m²)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical History Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">🏥</span>
+                    Medical History
+                </h3>
+                
+                <div class="form-group">
+                    <label>Family History of Diabetes <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="family_yes" name="family_history" value="1" required>
+                            <label for="family_yes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="family_no" name="family_history" value="0" required>
+                            <label for="family_no">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>PCOS (Polycystic Ovary Syndrome) <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="pcos_yes" name="pcos" value="1" required>
+                            <label for="pcos_yes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pcos_no" name="pcos" value="0" required>
+                            <label for="pcos_no">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Previous Gestational Diabetes <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="prev_gdm_yes" name="previous_gdm" value="1" required>
+                            <label for="prev_gdm_yes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="prev_gdm_no" name="previous_gdm" value="0" required>
+                            <label for="prev_gdm_no">No / N/A</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle Factors Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">💪</span>
+                    Lifestyle Factors
+                </h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="physical_activity">Physical Activity Level <span class="required">*</span></label>
+                        <select id="physical_activity" name="physical_activity" required>
+                            <option value="">Select activity level...</option>
+                            <option value="0">None (Sedentary)</option>
+                            <option value="1">Low (1-2 days/week)</option>
+                            <option value="2">Moderate (3-4 days/week)</option>
+                            <option value="3">High (5+ days/week)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diet_quality">Diet Quality <span class="required">*</span></label>
+                        <select id="diet_quality" name="diet_quality" required>
+                            <option value="">Select diet quality...</option>
+                            <option value="0">Poor (High sugar, processed)</option>
+                            <option value="1">Average (Mixed diet)</option>
+                            <option value="2">Excellent (Balanced, whole foods)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregnancy Details Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">🤰</span>
+                    Current Pregnancy Details
+                </h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gestational_week">Gestational Week <span class="required">*</span></label>
+                        <input type="number" id="gestational_week" name="gestational_week" min="4" max="40" placeholder="12" required>
+                        <p class="info-text">Current week of pregnancy (4-40)</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight_gain">Weight Gain (kg) <span class="required">*</span></label>
+                        <input type="number" id="weight_gain" name="weight_gain" min="0" max="30" step="0.1" placeholder="5.0" required>
+                        <p class="info-text">Weight gained since conception</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="previous_pregnancies">Previous Pregnancies <span class="required">*</span></label>
+                    <input type="number" id="previous_pregnancies" name="previous_pregnancies" min="0" max="10" placeholder="0" required>
+                    <p class="info-text">Enter 0 if this is your first pregnancy</p>
+                </div>
+            </div>
+
+            <!-- Clinical Measurements Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">📊</span>
+                    Clinical Measurements
+                </h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blood_pressure_systolic">Blood Pressure - Systolic <span class="required">*</span></label>
+                        <input type="number" id="blood_pressure_systolic" name="blood_pressure_systolic" min="80" max="180" placeholder="120" required>
+                        <p class="info-text">Upper number (Normal: 90-120 mmHg)</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resting_heart_rate">Resting Heart Rate <span class="required">*</span></label>
+                        <input type="number" id="resting_heart_rate" name="resting_heart_rate" min="50" max="120" placeholder="70" required>
+                        <p class="info-text">Heart rate at rest (Normal: 60-100 bpm)</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <span id="btnText">🔬 Analyze My Risk</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+    // Check if user is logged in
+    const userName = localStorage.getItem('userName');
+    const userId = localStorage.getItem('userId');
+    
+    if (!userName || !userId) {
+        alert('Please login first');
+        window.location.href = 'login.html';
+    }
+    document.getElementById('userName').textContent = userName;
+
+    // Logout function
+    function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userId');
+            fetch('http://localhost:5000/logout', {
+                method: 'POST',
+                credentials: 'include'
+            }).finally(() => {
+                window.location.href = 'login.html';
+            });
+        }
+    }
+
+    const form = document.getElementById('predictionForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const progressBar = document.getElementById('progressBar');
+
+    // Form submission handler
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if (!form.checkValidity()) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        btnText.textContent = '🔬 Analyzing your data...';
+        progressBar.style.width = '30%';
+
+        // IMPORTANT: Include user_id in the request
+        const formData = {
+            user_id: parseInt(userId),  // ⭐ This sends the user_id to backend
+            age: parseFloat(document.getElementById('age').value),
+            bmi: parseFloat(document.getElementById('bmi').value),
+            family_history: parseInt(document.querySelector('input[name="family_history"]:checked').value),
+            pcos: parseInt(document.querySelector('input[name="pcos"]:checked').value),
+            previous_gdm: parseInt(document.querySelector('input[name="previous_gdm"]:checked').value),
+            physical_activity: parseInt(document.getElementById('physical_activity').value),
+            diet_quality: parseInt(document.getElementById('diet_quality').value),
+            gestational_week: parseInt(document.getElementById('gestational_week').value),
+            weight_gain: parseFloat(document.getElementById('weight_gain').value),
+            previous_pregnancies: parseInt(document.getElementById('previous_pregnancies').value),
+            blood_pressure_systolic: parseInt(document.getElementById('blood_pressure_systolic').value),
+            resting_heart_rate: parseInt(document.getElementById('resting_heart_rate').value)
+        };
+
+        console.log('Sending data with user_id:', formData.user_id); // Debug log
+
+        progressBar.style.width = '60%';
+
+        try {
+            const response = await fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+                credentials: 'include'
+            });
+
+            progressBar.style.width = '90%';
+            const data = await response.json();
+
+            if (response.ok) {
+                progressBar.style.width = '100%';
+                localStorage.setItem('predictionResults', JSON.stringify(data));
+                setTimeout(() => {
+                    window.location.href = 'result.html';
+                }, 500);
+            } else {
+                alert('Error: ' + (data.error || 'Prediction failed. Please try again.'));
+                submitBtn.disabled = false;
+                btnText.textContent = '🔬 Analyze My Risk';
+                progressBar.style.width = '0%';
+            }
+        } catch (error) {
+            console.error('Prediction error:', error);
+            alert('Network error. Please ensure the Flask server is running on port 5000.');
+            submitBtn.disabled = false;
+            btnText.textContent = '🔬 Analyze My Risk';
+            progressBar.style.width = '0%';
+        }
+    });
+</script>
+
+</body>
+</html>
