@@ -436,7 +436,7 @@
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userEmail');
                 localStorage.removeItem('userId');
-                fetch('http://localhost:5000/logout', {
+                fetch('https://gdm-prediction-production.up.railway.app/logout', {
                     method: 'POST',
                     credentials: 'include'
                 }).finally(() => {
@@ -449,7 +449,7 @@
         async function loadHistory() {
             try {
                 // Use userId in the URL
-                const response = await fetch(`http://localhost:5000/history/${userId}`, {
+                const response = await fetch(`https://gdm-prediction-production.up.railway.app/history/${userId}`, {
                     method: 'GET',
                     credentials: 'include'
                 });
