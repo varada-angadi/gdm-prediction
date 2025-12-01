@@ -593,6 +593,7 @@
 
     <script>
     // Check if user is logged in
+    const baseUrl = window.location.origin; 
     const userName = localStorage.getItem('userName');
     const userId = localStorage.getItem('userId');
     
@@ -608,7 +609,7 @@
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userId');
-            fetch('https://gdm-prediction-production.up.railway.app/logout', {
+            fetch(`${baseUrl}/logout`, {
                 method: 'POST',
                 credentials: 'include'
             }).finally(() => {
@@ -657,7 +658,7 @@
         progressBar.style.width = '60%';
 
         try {
-            const response = await fetch('https://gdm-prediction-production.up.railway.app/predict', {
+            const response = await fetch(`${baseUrl}/predict`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

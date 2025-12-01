@@ -421,6 +421,7 @@
         // Replace the script section in history.html with this:
 
         // Check if user is logged in
+        const baseUrl = window.location.origin; 
         const userName = localStorage.getItem('userName');
         const userId = localStorage.getItem('userId');
 
@@ -436,7 +437,7 @@
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userEmail');
                 localStorage.removeItem('userId');
-                fetch('https://gdm-prediction-production.up.railway.app/logout', {
+                fetch(`${baseUrl}/logout`, {
                     method: 'POST',
                     credentials: 'include'
                 }).finally(() => {
@@ -449,7 +450,7 @@
         async function loadHistory() {
             try {
                 // Use userId in the URL
-                const response = await fetch(`https://gdm-prediction-production.up.railway.app/history/${userId}`, {
+                const response = await fetch(`${baseUrl}/${userId}`, {
                     method: 'GET',
                     credentials: 'include'
                 });
