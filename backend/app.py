@@ -18,7 +18,7 @@ CORS(app, supports_credentials=True)
 # FRONTEND ROUTES
 ##########################################
 
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "../frontend")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
 
 
 @app.route('/')
@@ -28,6 +28,10 @@ def home():
         return send_from_directory(FRONTEND_DIR, "index.html")
     else:
         return "Frontend not found", 404
+    
+@app.route('/debug')
+def debug():
+    return jsonify(os.listdir(os.path.join(os.path.dirname(__file__), "frontend"))) 
 
 @app.route('/index.html')
 def index_page():
