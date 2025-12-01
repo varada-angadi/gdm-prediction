@@ -1,63 +1,583 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prediction Result - MaternaGuard</title>
-<style>
-body { font-family: 'Inter', sans-serif; background:#f9fafb; padding:20px; }
-.container { max-width:700px; margin:50px auto; background:white; padding:40px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
-h1 { color:#db486f; text-align:center; margin-bottom:30px; }
-.section { margin-bottom:30px; }
-.section h2 { font-size:20px; color:#1f2937; margin-bottom:15px; }
-ul { list-style: disc; padding-left:20px; }
-.btn { display:block; width:100%; padding:16px; background:#db486f; color:white; border:none; border-radius:12px; font-size:16px; cursor:pointer; text-align:center; text-decoration:none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Assessment Results - MaternaGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #E8F5FF 0%, #FFE8F5 50%, #FFF4E8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .decorative-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #A78BFA, #EC4899);
+            top: -100px;
+            right: -100px;
+        }
+
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #60A5FA, #A78BFA);
+            bottom: 50px;
+            left: -50px;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .brand-text h2 {
+            font-size: 22px;
+            font-weight: 800;
+            background: #db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            padding: 10px 24px;
+            background: #db486f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .result-card {
+            background: white;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .header .highlight {
+            background: #db486f;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #6B7280;
+            font-size: 15px;
+        }
+
+        .risk-display {
+            text-align: center;
+            padding: 50px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            border: 3px solid;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+            }
+        }
+
+        .risk-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .risk-display.high {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border-color: #DC2626;
+        }
+
+        .risk-display.moderate {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-color: #F59E0B;
+        }
+
+        .risk-display.low {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            border-color: #10B981;
+        }
+
+        .risk-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .risk-level {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .risk-display.high .risk-level {
+            color: #DC2626;
+        }
+
+        .risk-display.moderate .risk-level {
+            color: #F59E0B;
+        }
+
+        .risk-display.low .risk-level {
+            color: #10B981;
+        }
+
+        .risk-percentage {
+            font-size: 28px;
+            font-weight: 700;
+            color: #6B7280;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #F3F4F6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 28px;
+        }
+
+        .factors-list {
+            background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 5px solid #db486f;
+        }
+
+        .factor-item {
+            background: white;
+            padding: 18px 24px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            border-left: 4px solid;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.3s;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .factor-item:nth-child(1) { border-left-color: #db486f; animation-delay: 0.1s; }
+        .factor-item:nth-child(2) { border-left-color: #db486f; animation-delay: 0.2s; }
+        .factor-item:nth-child(3) { border-left-color: #db486f; animation-delay: 0.3s; }
+        .factor-item:nth-child(4) { border-left-color: #db486f; animation-delay: 0.4s; }
+        .factor-item:nth-child(5) { border-left-color: #db486f; animation-delay: 0.5s; }
+
+        .factor-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .factor-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #db486f;
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .recommendations-list {
+            list-style: none;
+        }
+
+        .recommendation-item {
+            background: #fbe1e8;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            border-left: 5px solid #db486f;
+            font-size: 15px;
+            line-height: 1.7;
+            transition: all 0.3s;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .recommendation-item:nth-child(1) { animation-delay: 0.1s; }
+        .recommendation-item:nth-child(2) { animation-delay: 0.2s; }
+        .recommendation-item:nth-child(3) { animation-delay: 0.3s; }
+        .recommendation-item:nth-child(4) { animation-delay: 0.4s; }
+        .recommendation-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .recommendation-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            padding: 28px;
+            border-radius: 16px;
+            border-left: 5px solid #F59E0B;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .info-box h4 {
+            color: #F59E0B;
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box p {
+            color: #92400E;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .info-box strong {
+            color: #78350F;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #db486f;
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #db486f;
+            border: 2px solid #db486f;
+        }
+
+        .btn-secondary:hover {
+            background: #F9FAFB;
+        }
+
+        @media print {
+            .navbar, .action-buttons {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .decorative-shapes {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .result-card {
+                padding: 30px 20px;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .risk-display {
+                padding: 30px 20px;
+            }
+
+            .risk-level {
+                font-size: 32px;
+            }
+
+            .risk-percentage {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Gestational Diabetes Risk Result</h1>
-    
-    <div class="section">
-        <h2>Risk Score</h2>
-        <p id="riskScore">Loading...</p>
+    <div class="decorative-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
     </div>
 
-    <div class="section">
-        <h2>Top Contributing Factors</h2>
-        <ul id="topFactors"></ul>
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo-icon">🤰</div>
+            <div class="brand-text">
+                <h2>MaternaGuard</h2>
+                <p>Empowering healthier pregnancies</p>
+            </div>
+        </div>
+        <a href="prediction.html" class="back-btn">← New Assessment</a>
     </div>
 
-    <a href="prediction.html" class="btn">🔄 Assess Again</a>
-    <a href="history.html" class="btn" style="margin-top:10px;">📜 View History</a>
-</div>
+    <div class="container">
+        <div class="result-card">
+            <div class="header">
+                <h1>Your <span class="highlight">Risk Assessment</span> Results</h1>
+                <p>Powered by advanced deep learning analysis</p>
+            </div>
 
-<script>
-const results = JSON.parse(localStorage.getItem('predictionResults'));
+            <!-- Risk Display -->
+            <div id="riskDisplay" class="risk-display">
+                <div class="risk-icon" id="riskIcon"></div>
+                <div class="risk-level" id="riskLevel"></div>
+                <div class="risk-percentage" id="riskPercentage"></div>
+            </div>
 
-if (!results) {
-    alert('No prediction data found. Please perform an assessment first.');
-    window.location.href = 'prediction.html';
-}
+            <!-- Top Risk Factors -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    Top Contributing Factors
+                </h3>
+                <div class="factors-list" id="factorsList"></div>
+            </div>
 
-// Display risk score
-document.getElementById('riskScore').textContent = results.risk_score || 'N/A';
+            <!-- Recommendations -->
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">💡</span>
+                    Personalized Recommendations
+                </h3>
+                <ul class="recommendations-list" id="recommendationsList"></ul>
+            </div>
 
-// Display top factors
-const factorsContainer = document.getElementById('topFactors');
-factorsContainer.innerHTML = '';
+            <!-- Important Information -->
+            <div class="info-box">
+                <h4>
+                    <span>⚠️</span>
+                    Important Medical Disclaimer
+                </h4>
+                <p>
+                    This is a <strong>predictive risk assessment tool</strong> based on artificial intelligence and machine learning. 
+                    It analyzes patterns in clinical data to estimate future risk. Even if your current values appear normal, 
+                    our model may predict elevated risk based on data patterns. This tool should <strong>not replace professional 
+                    medical advice, diagnosis, or treatment</strong>. Please consult with your healthcare provider for proper 
+                    screening, diagnosis, and personalized management of gestational diabetes.
+                </p>
+            </div>
 
-if (results.top_factors && results.top_factors.length > 0) {
-    results.top_factors.forEach(factor => {
-        const li = document.createElement('li');
-        li.textContent = factor;
-        factorsContainer.appendChild(li);
-    });
-} else {
-    const li = document.createElement('li');
-    li.textContent = 'Overall health profile';
-    factorsContainer.appendChild(li);
-}
-</script>
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="window.print()">
+                    🖨️ Print Results
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href='prediction.html'">
+                    📊 New Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const results = JSON.parse(localStorage.getItem('predictionResults'));
+
+        if (!results) {
+            alert('No results found. Please complete the assessment first.');
+            window.location.href = 'prediction.html';
+        }
+
+        const riskDisplay = document.getElementById('riskDisplay');
+        const riskIcon = document.getElementById('riskIcon');
+        const riskLevel = document.getElementById('riskLevel');
+        const riskPercentage = document.getElementById('riskPercentage');
+
+        // Set risk level display
+        riskLevel.textContent = `${results.risk_level} Risk`;
+        riskPercentage.textContent = `${results.risk_percentage}% probability`;
+
+        // Set icon and color scheme based on risk level
+        if (results.risk_level === 'High') {
+            riskDisplay.className = 'risk-display high';
+            riskIcon.textContent = '⚠️';
+        } else if (results.risk_level === 'Moderate') {
+            riskDisplay.className = 'risk-display moderate';
+            riskIcon.textContent = '⚡';
+        } else {
+            riskDisplay.className = 'risk-display low';
+            riskIcon.textContent = '✅';
+        }
+
+        // Display top factors
+        const factorsList = document.getElementById('factorsList');
+        results.top_factors.forEach((factor, index) => {
+            const factorDiv = document.createElement('div');
+            factorDiv.className = 'factor-item';
+            factorDiv.innerHTML = `
+                <div class="factor-number">${index + 1}</div>
+                <span>${factor}</span>
+            `;
+            factorsList.appendChild(factorDiv);
+        });
+
+        // Display recommendations
+        const recommendationsList = document.getElementById('recommendationsList');
+        results.recommendations.forEach(recommendation => {
+            const li = document.createElement('li');
+            li.className = 'recommendation-item';
+            li.textContent = recommendation;
+            recommendationsList.appendChild(li);
+        });
+    </script>
 </body>
 </html>
