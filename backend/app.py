@@ -18,7 +18,7 @@ CORS(app, supports_credentials=True)
 # FRONTEND ROUTES
 ##########################################
 
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "../frontend")
 
 
 @app.route('/')
